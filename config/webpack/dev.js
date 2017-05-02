@@ -96,7 +96,7 @@ var config = {
       debug: true,
       options: {
         tslint: {
-          failOnHint: true
+          failOnHint: false
         },
         postcss: function () {
           return [

@@ -18,7 +18,7 @@
   "author": "Andrew Parisi <andrew.parisi8@gmail.com>",
   "repository": {
     "type": "git",
-    "url": "https://github.com/barbar/vortigern.git"
+    "url": "https://github.com/andyparisi/emporium.git"
   },
   "devDependencies": {
     "@types/base16": "^1.0.1",
