@@ -10,7 +10,7 @@ class About extends React.Component<any, any> {
   public render() {
     return (
       <div className={style.About}>
-        <h4>{`About ${this.props.test}`}</h4>
+        <h4>{`About ${this.props.test}!?`}</h4>
       </div>
     );
   }
