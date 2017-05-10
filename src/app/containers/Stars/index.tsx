@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { getStars } from 'modules/stars';
-import { IStars, IStarsAction } from 'models/stars';
+import { IStars, IStarsAction } from 'interfaces/stars';
 const { connect } = require('react-redux');
 const { asyncConnect } = require('redux-connect');
 const style = require('./style.css');
