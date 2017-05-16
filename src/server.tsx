@@ -54,11 +54,16 @@ app.use(favicon(path.join(__dirname, 'public/favicon.ico')));
 
 app.use('/public', express.static(path.join(__dirname, 'public')));
 
-app.get('*', (req, res) => {
+app.get('*', (req, res, next) => {
   const location = req.url;
   const memoryHistory = createMemoryHistory(req.originalUrl);
   const store = configureStore(memoryHistory);
   const history = syncHistoryWithStore(memoryHistory, store);
+
+  // Pass along API calls to the next handler
+  if(location.search('/api') > -1) {
+    return next();
+  }
 
   match({ history, routes, location },
     (error, redirectLocation, renderProps) => {
@@ -82,6 +87,11 @@ app.get('*', (req, res) => {
       }
     });
 });
+
+import serverRoutes from './server/routes';
+const router = express.Router();
+serverRoutes(app);
+app.use('/api/*', router);
 
 app.listen(appConfig.port, appConfig.host, (err) => {
   if (err) {
