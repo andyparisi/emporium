@@ -23,11 +23,12 @@ const compression = require('compression');
 const Chalk = require('chalk');
 const favicon = require('serve-favicon');
 
-import { connect } from 'mongoose';
+const mongoose = require('mongoose');
+mongoose.Promise = global.Promise;
 
 const app = express();
 
-connect("mongodb://admin:keep the dog out of the kitchen@ds129281.mlab.com:29281/emporium")
+mongoose.connect("mongodb://admin:keep the dog out of the kitchen@ds129281.mlab.com:29281/emporium")
 
 app.use(compression());
 
