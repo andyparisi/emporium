@@ -5,7 +5,7 @@ import IEmpService from '../interfaces/IEmpService';
 
 export class Users implements IEmpService {
   router;
-  public path = "users";
+  path = "users";
   
   constructor() {
     this.router = Router();
@@ -27,5 +27,6 @@ export class Users implements IEmpService {
   }
 }
 
-const { router } = new Users();
-export default router;
+
+const { router, path } = new Users();
+export { router, path };
