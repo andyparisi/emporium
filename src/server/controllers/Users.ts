@@ -1,30 +1,31 @@
+import { Router, Request, Response, NextFunction } from 'express';
 import User from '../models/User';
+import IEmpService from '../interfaces/IEmpService';
 
-// const Users = {
-//   path: "users",
-//   method: "GET",
-//   handler: (req, res) => {
-//     User.find({}).exec((err, users) => {
-//       res.json(users);
-//     }) 
-//   }
-// };
 
-interface IUsers {
-  path: string,
-  method: string,
-  middleware?: any
-}
-
-class Users implements IUsers {
-  path: "users";
-  method: "GET";
+export class Users implements IEmpService {
+  router;
+  public path = "users";
   
-  getUsers() {
-    User.find({}).exec((err: any, users: array) => {
+  constructor() {
+    this.router = Router();
+    // Create the routes
+    this.router.get('/', this.getAll);
+    this.router.get('/any', this.getOne);
+  }
+
+  public getAll(req: Request, res: Response) {
+    User.find({}).exec((err, users) => {
       res.json(users);
     }) 
   }
+
+  public getOne(req: Request, res: Response) {
+    User.find({}).exec((err, users) => {
+      res.json(users[0]);
+    })
+  }
 }
 
-export default [ Users ];
+const { router } = new Users();
+export default router;
