@@ -45,7 +45,7 @@ if (process.env.NODE_ENV !== 'production') {
     inline: true,
     lazy: false,
     historyApiFallback: true,
-    quiet: true,
+    quiet: false,
   }));
 
   app.use(require('webpack-hot-middleware')(webpackCompiler));

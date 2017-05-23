@@ -12,18 +12,23 @@ export class Users implements IEmpService {
     // Create the routes
     this.router.get('/', this.getAll);
     this.router.get('/any', this.getOne);
+    this.router.get('/heyz', this.hey);
   }
 
-  public getAll(req: Request, res: Response) {
+  public getAll(req: Request, res: Response): void {
     User.find({}).exec((err, users) => {
       res.json(users);
     }) 
   }
 
-  public getOne(req: Request, res: Response) {
+  public getOne(req: Request, res: Response): void {
     User.find({}).exec((err, users) => {
       res.json(users[0]);
     })
+  }
+
+  public hey(req: Request, res: Response): void {
+    res.send("sup bro");
   }
 }
 

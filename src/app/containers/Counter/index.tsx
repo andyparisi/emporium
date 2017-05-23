@@ -25,7 +25,7 @@ class Counter extends React.Component<IProps, void> {
 
     return (
       <div className={style.Counter}>
-        <h4>Counter Example</h4>
+        <h4>Counter Examplez</h4>
         <button
           name="incBtn"
           onClick={increment}>
