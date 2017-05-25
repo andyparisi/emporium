@@ -1,13 +1,14 @@
 import { Request, Response } from 'express';
 import User from '../models/User';
-import { EmpService } from './EmpService';
+import EmpService from './EmpService';
+import { AUTH_SECRET } from 'secrets';
 const jwt = require('jsonwebtoken');
 const passport = require('passport');
 
 
-export class Users extends EmpService {
+export default class Users extends EmpService {
   constructor() {
-    // Set the parent route
+    // Set the route prefix
     super("users");
 
     // Create the child routes
@@ -34,12 +35,8 @@ export class Users extends EmpService {
     .exec((err, user) => {
       let token = jwt.sign({
         user: user
-      }, 'get to the choppah naoooo!!');
+      }, AUTH_SECRET);
       res.json(token);
     });
   }
 }
-
-
-const { router, path } = new Users();
-export { router, path };

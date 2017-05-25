@@ -3,13 +3,13 @@ import IEmpService from '../interfaces/IEmpService';
 const passport = require('passport');
 
 
-export class EmpService implements IEmpService {
+export default class EmpService implements IEmpService {
   router;
-  path;
+  prefix;
 
-  constructor(path: string) {
+  constructor(prefix: string) {
     this.router = Router();
-    this.path = path;
+    this.prefix = prefix;
   }
 
   public route(verb: string, path: string, handler: any, auth: boolean = true): void {

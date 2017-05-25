@@ -2,7 +2,7 @@ import { Router } from 'express';
 
 interface IEmpService {
   router: Router;
-  path: string;
+  prefix: string;
 }
 
 export default IEmpService;

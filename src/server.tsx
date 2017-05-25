@@ -32,11 +32,13 @@ const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 import User from './server/models/User'
 
+import { DB_STRING, AUTH_SECRET } from './server/secrets';
+
 // Passport middleware config
 const { ExtractJwt, Strategy } = passportJwt;
 const jwtConfig: any = {
   jwtFromRequest: ExtractJwt.fromAuthHeader(),
-  secretOrKey: 'get to the choppah naoooo!!'
+  secretOrKey: AUTH_SECRET
 };
 
 const strategy = new Strategy(jwtConfig, (payload, done) => {
@@ -60,7 +62,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(passport.initialize());
 
-mongoose.connect("mongodb://admin:keep the dog out of the kitchen@ds129281.mlab.com:29281/emporium")
+mongoose.connect(DB_STRING);
 
 app.use(compression());
 
