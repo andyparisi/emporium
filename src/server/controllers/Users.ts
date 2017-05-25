@@ -1,18 +1,19 @@
-import { Router, Request, Response, NextFunction } from 'express';
+import { Request, Response } from 'express';
 import User from '../models/User';
-import IEmpService from '../interfaces/IEmpService';
+import { EmpService } from './EmpService';
+const jwt = require('jsonwebtoken');
+const passport = require('passport');
 
 
-export class Users implements IEmpService {
-  router;
-  path = "users";
-  
+export class Users extends EmpService {
   constructor() {
-    this.router = Router();
-    // Create the routes
-    this.router.get('/', this.getAll);
-    this.router.get('/any', this.getOne);
-    this.router.get('/heyz', this.hey);
+    // Set the parent route
+    super("users");
+
+    // Create the child routes
+    this.get('/', this.getAll);
+    this.get('/:userId', this.getOne);
+    this.post('/login', this.login, false);
   }
 
   public getAll(req: Request, res: Response): void {
@@ -22,13 +23,20 @@ export class Users implements IEmpService {
   }
 
   public getOne(req: Request, res: Response): void {
-    User.find({}).exec((err, users) => {
-      res.json(users[0]);
-    })
+    User.findOne({})
+    .exec((err, user) => {
+      res.json(user);
+    });
   }
 
-  public hey(req: Request, res: Response): void {
-    res.send("sup bro");
+  public login(req: Request, res: Response): void {
+    User.findOne({})
+    .exec((err, user) => {
+      let token = jwt.sign({
+        user: user
+      }, 'get to the choppah naoooo!!');
+      res.json(token);
+    });
   }
 }
 

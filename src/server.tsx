@@ -20,13 +20,45 @@ const manifest = require('../build/manifest.json');
 const express = require('express');
 const path = require('path');
 const compression = require('compression');
+const bodyParser = require('body-parser');
+const morgan = require('morgan');
 const Chalk = require('chalk');
 const favicon = require('serve-favicon');
 
+const passport = require('passport');
+const passportJwt = require('passport-jwt');
+
 const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
+import User from './server/models/User'
 
+// Passport middleware config
+const { ExtractJwt, Strategy } = passportJwt;
+const jwtConfig: any = {
+  jwtFromRequest: ExtractJwt.fromAuthHeader(),
+  secretOrKey: 'get to the choppah naoooo!!'
+};
+
+const strategy = new Strategy(jwtConfig, (payload, done) => {
+  User.findOne({ id: payload.sub }, (err, user) => {
+    if (err) {
+      return done(err, false);
+    }
+    if (user) {
+      done(null, user);
+    } else {
+      done(null, false);
+    }
+  });
+});
+
+passport.use(strategy);
 const app = express();
+
+app.use(morgan('dev'));
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+app.use(passport.initialize());
 
 mongoose.connect("mongodb://admin:keep the dog out of the kitchen@ds129281.mlab.com:29281/emporium")
 
