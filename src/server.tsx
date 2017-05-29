@@ -26,7 +26,7 @@ const Chalk = require('chalk');
 const favicon = require('serve-favicon');
 
 const passport = require('passport');
-const passportJwt = require('passport-jwt');
+const { ExtractJwt, Strategy } = require('passport-jwt');
 
 const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
@@ -35,7 +35,6 @@ import User from './server/models/User'
 import { DB_STRING, AUTH_SECRET } from './server/secrets';
 
 // Passport middleware config
-const { ExtractJwt, Strategy } = passportJwt;
 const jwtConfig: any = {
   jwtFromRequest: ExtractJwt.fromAuthHeader(),
   secretOrKey: AUTH_SECRET
