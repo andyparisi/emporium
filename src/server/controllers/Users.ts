@@ -35,7 +35,7 @@ export default class Users extends EmpService {
     const { email, password } = req.body;
     if(!email || !password) {
       return res.status(400).json({
-        message: "Email and password required"
+        message: "Email and password required123"
       });
     }
 
@@ -105,7 +105,7 @@ export default class Users extends EmpService {
         }
 
         res.json({
-          message: "User successfully created"
+          message: "User successfully created!"
         });
       });
     }
