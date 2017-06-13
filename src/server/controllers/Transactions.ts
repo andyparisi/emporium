@@ -1,20 +1,20 @@
 import { Request, Response } from 'express';
-import Discount from '../models/Discount';
+import Transaction from '../models/Transaction';
 import EmpService from './EmpService';
 
 
-export default class Discounts extends EmpService {
+export default class Transactions extends EmpService {
   constructor() {
     // Set the route prefix
-    super("services");
+    super("transactions");
 
     // Create the child routes
     this.get('/', this.getAll, false);
   }
 
   public getAll(req: Request, res: Response): void {
-    Discount.find({}).exec((err, discounts) => {
-      res.json(discounts);
+    Transaction.find({}).exec((err, transactions) => {
+      res.json(transactions);
     }) 
   }
 }

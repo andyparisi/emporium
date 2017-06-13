@@ -1,13 +1,13 @@
 import * as mongoose from 'mongoose';
-const { Schema } = mongoose;
+const { Schema, Types } = mongoose;
 
 const LocationSchema = new Schema({
   name: {
     type: String,
     required: true
   },
-  owner: {
-    type: String,
+  ownerId: {
+    type: Types.ObjectId,
     required: true
   },
   description: {
@@ -36,6 +36,12 @@ const LocationSchema = new Schema({
   country: {
     type: String,
     required: true
+  },
+  phone: {
+    type: String
+  },
+  email: {
+    type: String
   }
 }, {
   collection: 'locations',

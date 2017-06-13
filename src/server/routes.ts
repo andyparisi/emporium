@@ -3,7 +3,10 @@ import Locations from './controllers/Locations'
 import Clients from './controllers/Clients'
 import Appointments from './controllers/Appointments'
 import Services from './controllers/Services'
-import Discounts from './controllers/Discounts'
+import Promotions from './controllers/Promotions'
+import Employees from './controllers/Employees'
+import Transactions from './controllers/Transactions'
+import Products from './controllers/Products'
 
 export default app => {
     const routes = [
@@ -12,7 +15,10 @@ export default app => {
       Clients,
       Appointments,
       Services,
-      Discounts
+      Promotions,
+      Employees,
+      Transactions,
+      Products
     ];
 
   routes.forEach(C => {

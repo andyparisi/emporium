@@ -1,16 +1,20 @@
 import * as mongoose from 'mongoose';
 const { Schema } = mongoose;
 
-const ClientSchema = new Schema({
-  name: {
-    type: String,
-    required: true
-  },
+const EmployeeSchema = new Schema({
   email: {
     type: String
   },
-  description: {
+  phone: {
     type: String
+  },
+  firstName: {
+    type: String,
+    required: true
+  },
+  lastName: {
+    type: String,
+    required: true
   },
   address1: {
     type: String,
@@ -36,21 +40,14 @@ const ClientSchema = new Schema({
     type: String,
     required: true
   },
-  phone1: {
-    type: String
-  },
-  phone2: {
-    type: String
-  },
-  balance: {
-    type: Number,
-    default: 0.00
+  isOwner: {
+    type: Boolean
   }
 }, {
-  collection: 'clients',
+  collection: 'employees',
   timestamps: true
 });
 
 
-const Client = mongoose.model('Client', ClientSchema);
-export default Client;
+const Employee = mongoose.model('Employee', EmployeeSchema);
+export default Employee;

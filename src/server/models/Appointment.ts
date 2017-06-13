@@ -1,5 +1,5 @@
 import * as mongoose from 'mongoose';
-const { Schema } = mongoose;
+const { Schema, Types } = mongoose;
 
 const AppointmentSchema = new Schema({
   title: {
@@ -17,15 +17,18 @@ const AppointmentSchema = new Schema({
   description: {
     type: String
   },
-  transactionId: {
-    type: String
+  previousAppointmentId: {
+    type: Types.ObjectId
+  },
+  nextAppointmentId: {
+    type: Types.ObjectId
+  },
+  creatorId: {
+    type: Types.ObjectId,
+    required: true
   },
   status: {
     type: Number,
-    required: true
-  },
-  authorId: {
-    type: String,
     required: true
   },
   address1: {
