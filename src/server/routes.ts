@@ -7,6 +7,7 @@ import Promotions from './controllers/Promotions'
 import Employees from './controllers/Employees'
 import Transactions from './controllers/Transactions'
 import Products from './controllers/Products'
+import Logs from './controllers/Logs'
 
 export default app => {
     const routes = [
@@ -18,7 +19,8 @@ export default app => {
       Promotions,
       Employees,
       Transactions,
-      Products
+      Products,
+      Logs
     ];
 
   routes.forEach(C => {
