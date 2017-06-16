@@ -1,5 +1,6 @@
 import * as mongoose from 'mongoose';
-const { Schema, Types } = mongoose;
+const { Schema } = mongoose;
+const { ObjectId } = Schema.Types;
 
 const LogSchema = new Schema({
   message: {
@@ -7,7 +8,7 @@ const LogSchema = new Schema({
     required: true
   },
   userId: {
-    type: Types.ObjectId,
+    type: ObjectId,
     required: true
   },
   ipAddress: {
@@ -20,5 +21,5 @@ const LogSchema = new Schema({
 });
 
 
-const Product = mongoose.model('Product', LogSchema);
-export default Product;
+const Log = mongoose.model('Log', LogSchema);
+export default Log;

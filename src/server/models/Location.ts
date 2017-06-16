@@ -1,5 +1,6 @@
 import * as mongoose from 'mongoose';
-const { Schema, Types } = mongoose;
+const { Schema } = mongoose;
+const { ObjectId } = Schema.Types;
 
 const LocationSchema = new Schema({
   name: {
@@ -7,7 +8,7 @@ const LocationSchema = new Schema({
     required: true
   },
   ownerId: {
-    type: Types.ObjectId,
+    type: ObjectId,
     required: true
   },
   description: {

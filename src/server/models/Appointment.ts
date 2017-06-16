@@ -1,5 +1,6 @@
 import * as mongoose from 'mongoose';
-const { Schema, Types } = mongoose;
+const { Schema } = mongoose;
+const { ObjectId } = Schema.Types;
 
 const AppointmentSchema = new Schema({
   title: {
@@ -18,13 +19,13 @@ const AppointmentSchema = new Schema({
     type: String
   },
   previousAppointmentId: {
-    type: Types.ObjectId
+    type: ObjectId
   },
   nextAppointmentId: {
-    type: Types.ObjectId
+    type: ObjectId
   },
   creatorId: {
-    type: Types.ObjectId,
+    type: ObjectId,
     required: true
   },
   status: {

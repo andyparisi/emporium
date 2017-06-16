@@ -1,5 +1,6 @@
 import * as mongoose from 'mongoose';
-const { Schema, Types } = mongoose;
+const { Schema } = mongoose;
+const { ObjectId } = Schema.Types;
 
 const PromotionSchema = new Schema({
   description: {
@@ -17,10 +18,10 @@ const PromotionSchema = new Schema({
     type: Date
   },
   services: [
-    Types.ObjectId
+    ObjectId
   ],
   products: [
-    Types.ObjectId
+    ObjectId
   ]
 }, {
   collection: 'promotions',

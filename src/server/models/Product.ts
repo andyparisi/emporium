@@ -1,5 +1,5 @@
 import * as mongoose from 'mongoose';
-const { Schema, Types } = mongoose;
+const { Schema } = mongoose;
 
 const ProductSchema = new Schema({
   title: {

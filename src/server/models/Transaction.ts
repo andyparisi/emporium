@@ -1,5 +1,6 @@
 import * as mongoose from 'mongoose';
-const { Schema, Types } = mongoose;
+const { Schema } = mongoose;
+const { ObjectId } = Schema.Types;
 
 const TransactionSchema = new Schema({
   amount: {
@@ -7,7 +8,7 @@ const TransactionSchema = new Schema({
     required: true
   },
   clientId: {
-    type: Types.ObjectId,
+    type: ObjectId,
     required: true
   },
   type: {
@@ -15,10 +16,10 @@ const TransactionSchema = new Schema({
     required: true
   },
   discountId: {
-    type: Types.ObjectId
+    type: ObjectId
   },
   appointmentId: {
-    type: Types.ObjectId
+    type: ObjectId
   }
 }, {
   collection: 'transactions',
