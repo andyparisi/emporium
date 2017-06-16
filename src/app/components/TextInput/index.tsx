@@ -4,20 +4,27 @@ const style = require('./style.css');
 interface IProps {
   placeholder?: string;
   value?: string;
-  onChange: (any) => void;
+  type?: string;
+  onChange: (e: any) => void;
 }
 
 class TextInput extends React.Component<IProps, any> {
-  public static defaultProps: Partial<IProps> = {
-    value: 'No value'
+  public constructor(props) {
+    super(props);
+    this.handleChange = this.handleChange.bind(this);
   }
 
+  public static defaultProps: Partial<IProps> = {
+    value: 'No value',
+    type: 'text'
+  };
+
   public render(): JSX.Element {
-    const { placeholder, value } = this.props;
-    
+    const { placeholder, value, type } = this.props;
+
     return (
       <div className={style.TextInput}>
-        <input type="text" placeholder={placeholder} value={value} onChange={this.handleChange} />
+        <input type={type} placeholder={placeholder} value={value} onChange={this.handleChange} />
       </div>
     );
   }
