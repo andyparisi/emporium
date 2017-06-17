@@ -4,9 +4,15 @@
     "tslint-react"
   ],
   "rules": {
+    "one-line": [
+      false
+    ],
     "indent": [
       true,
       "spaces"
+    ],
+    "only-arrow-functions": [
+      false
     ],
     "trailing-comma": [
       true,
@@ -26,7 +32,9 @@
       false
     ],
     "object-literal-sort-keys": false,
+    "object-literal-shorthand": false,
     "no-shadowed-variable": false,
+    "arrow-parens": false,
     "no-console": [
       false
     ],

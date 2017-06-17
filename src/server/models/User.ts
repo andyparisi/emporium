@@ -19,21 +19,47 @@ const UserSchema = new Schema({
   password: {
     type: String,
     required: true
+  },
+  isAdmin: {
+    type: Boolean
+  },
+  attempts: {
+    type: Number
+  },
+  verified: {
+    type: Boolean
   }
 }, {
   collection: 'users',
   timestamps: true
 });
 
+UserSchema.set('toJSON', {
+  transform: function(doc, rv, options) {
+    const toRemove = [
+      'password',
+      'attempts'
+    ];
+    toRemove.forEach(function(item) {
+      return delete rv[item];
+    });
+    return rv;
+  }
+});
+
 UserSchema.pre('save', function(next: NextFunction) {
-  if(this.isModified('password') || this.isNew) {
-    let user = this;
+  if (this.isModified('password') || this.isNew) {
+    const user = this;
     bcrypt.genSalt(10, (err, salt) => {
-      if(err) return next(err);
+      if (err) {
+        return next(err);
+      }
 
       // Hash the password
       bcrypt.hash(user.password, salt, (err, hash) => {
-        if(err) return next(err);
+        if (err) {
+          return next(err);
+        }
 
         // Set the password to the hashed input
         user.password = hash;
@@ -48,7 +74,10 @@ UserSchema.pre('save', function(next: NextFunction) {
 
 UserSchema.methods.comparePassword = function(password, cb) {
   bcrypt.compare(password, this.password, (err, isMatch) => {
-    if(err) return cb(err);
+    if (err) {
+      return cb(err);
+    }
+
     cb(null, isMatch);
   });
 };

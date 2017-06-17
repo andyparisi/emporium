@@ -5,11 +5,10 @@ import { AUTH_SECRET } from 'secrets';
 const jwt = require('jsonwebtoken');
 const passport = require('passport');
 
-
 export default class Users extends EmpService {
   constructor() {
     // Set the route prefix
-    super("users");
+    super('users');
 
     // Create the child routes
     this.get('/', this.getAll);
@@ -21,11 +20,13 @@ export default class Users extends EmpService {
   public getAll(req: Request, res: Response): void {
     User.find({}).exec((err, users) => {
       res.json(users);
-    }) 
+    });
   }
 
   public getOne(req: Request, res: Response): void {
-    User.findOne({})
+    User.findOne({
+      id: req.body._id
+    })
     .exec((err, user) => {
       res.json(user);
     });
@@ -33,9 +34,9 @@ export default class Users extends EmpService {
 
   public login(req: Request, res: Response): void {
     const { email, password } = req.body;
-    if(!email || !password) {
+    if (!email || !password) {
       return res.status(400).json({
-        message: "Email and password required123"
+        message: 'Email and password required123'
       });
     }
 
@@ -43,15 +44,15 @@ export default class Users extends EmpService {
       email: req.body.email
     })
     .exec((err, user) => {
-      if(err) {
+      if (err) {
         res.status(500).json({
           message: err
         });
       }
 
-      if(!user) {
+      if (!user) {
         res.status(400).json({
-          message: "User not found"
+          message: 'User not found'
         });
       }
       // Compare password
@@ -63,33 +64,36 @@ export default class Users extends EmpService {
             });
           }
 
-          if(isMatch) {
-            let token = jwt.sign({
+          if (isMatch) {
+            const token = jwt.sign({
               user: user
             }, AUTH_SECRET, {
-              expiresIn: "7 days"
+              expiresIn: '7 days'
             });
-            res.json(token);
+            res.json({
+              user: user,
+              token: token
+            });
           }
           else {
             res.status(401).json({
-              message: "Authentication failed. Passwords did not match."
+              message: 'Authentication failed. Passwords did not match.'
             });
           }
-        })
+        });
       }
     });
   }
 
   public register(req: Request, res: Response): void {
     const { email, password, firstName, lastName } = req.body;
-    if(!email || !password || !firstName || !lastName) {
+    if (!email || !password || !firstName || !lastName) {
       res.status(400).json({
-        message: "Email, password, first name and last name are required"
+        message: 'Email, password, first name and last name are required'
       });
     }
     else {
-      let user = new User({
+      const user = new User({
         email: email,
         password: password,
         firstName: firstName,
@@ -98,14 +102,14 @@ export default class Users extends EmpService {
 
       // Save the new user
       user.save(err => {
-        if(err) {
+        if (err) {
           return res.status(400).json({
-            message: "Email address already exists"
+            message: 'Email address already exists'
           });
         }
 
         res.json({
-          message: "User successfully created!"
+          message: 'User successfully created!'
         });
       });
     }
