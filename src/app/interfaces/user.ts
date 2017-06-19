@@ -3,10 +3,7 @@ export interface IUser {
   count?: number;
   error?: boolean;
   message?: any;
-  email?: string;
-  firstName?: string;
-  lastName?: string;
-  _id?: string;
+  user?: any;
 }
 
 export interface IUserAction {

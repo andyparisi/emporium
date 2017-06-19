@@ -8,7 +8,8 @@ export const LOGIN_SUCCESS: string = 'user/LOGIN_SUCCESS';
 export const LOGIN_FAILURE: string = 'user/LOGIN_FAILURE';
 
 const initialState: IUser = {
-  isFetching: false
+  isFetching: false,
+  user: {}
 };
 
 export function userReducer(state = initialState, action: IUserAction) {
@@ -53,8 +54,9 @@ export function userReducer(state = initialState, action: IUserAction) {
  * Log a user in and receive a JSON web token for authentication
  * @param email
  * @param password
+ * @param cb
  */
-export function login(email: string, password: string) {
+export function loginUser(email: string, password: string, cb) {
   return (dispatch) => {
     const body = JSON.stringify({
       email: email,
@@ -71,7 +73,8 @@ export function login(email: string, password: string) {
     .then(res => {
       if (res.ok) {
         return res.json()
-          .then((res) => dispatch(loginSuccess(res)));
+          .then((res) => dispatch(loginSuccess(res)))
+          .then(res => cb());
       } else {
         return res.json()
           .then((res) => dispatch(loginFailure(res)));
