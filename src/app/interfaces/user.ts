@@ -1,6 +1,6 @@
 export interface IUser {
   isFetching?: boolean;
-  isLoaded?: boolean;
+  isLoggedIn?: boolean;
   error?: boolean;
   message?: any;
   user?: any;

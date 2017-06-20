@@ -8,9 +8,11 @@ export const GET_USER_FAILURE: string = 'user/GET_USER_FAILURE';
 export const LOGIN_SUCCESS: string = 'user/LOGIN_SUCCESS';
 export const LOGIN_FAILURE: string = 'user/LOGIN_FAILURE';
 
+export const LOGOUT: string = 'user/LOGOUT';
+
 const initialState: IUser = {
   isFetching: false,
-  isLoaded: false,
+  isLoggedIn: false,
   user: {}
 };
 
@@ -24,7 +26,7 @@ export function userReducer(state = initialState, action: IUserAction) {
     case GET_USER_SUCCESS:
       return Object.assign({}, state, {
         isFetching: false,
-        isLoaded: true,
+        isLoggedIn: true,
         user: action.payload.user
       });
 
@@ -38,7 +40,7 @@ export function userReducer(state = initialState, action: IUserAction) {
     case LOGIN_SUCCESS:
       return Object.assign({}, state, {
         isFetching: false,
-        isLoaded: true,
+        isLoggedIn: true,
         user: action.payload.user
       });
 
@@ -49,6 +51,9 @@ export function userReducer(state = initialState, action: IUserAction) {
         error: true,
       });
 
+    case LOGOUT:
+      return initialState;
+
     default:
       return state;
   }
@@ -56,22 +61,18 @@ export function userReducer(state = initialState, action: IUserAction) {
 
 /**
  * Log a user in and receive a JSON web token for authentication
- * @param email
- * @param password
- * @param cb
+ * @param email User's email provided at login
+ * @param password User's password provided at login
+ * @param cb Callback method to be fired after successful login
  */
-export function loginUser(email: string, password: string, cb) {
+export function loginUser(email: string, password: string, cb?) {
   return (dispatch) => {
     const body = JSON.stringify({
       email: email,
       password: password
     });
 
-    return fetch(`/api/users/login`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
+    return Ajax.post(`users/login`, {
       body: body
     })
     .then(res => {
@@ -92,11 +93,13 @@ export function loginUser(email: string, password: string, cb) {
 
 export function loginSuccess(res: any) {
   const { user, token } = res;
+  const { _id, email } = user;
+
   // Set the token to localstorage. No real need to pass it to state.
   window.localStorage.setItem('token', token);
   // Store the userId and email in storage
-  window.localStorage.setItem('userEmail', user.email);
-  window.localStorage.setItem('userId', user._id);
+  window.localStorage.setItem('userEmail', email);
+  window.localStorage.setItem('userId', _id);
 
   return {
     type: LOGIN_SUCCESS,
@@ -116,6 +119,17 @@ export function loginFailure(message: any) {
 }
 
 /**
+ * Logout the current user session and destroy the token
+ */
+export function logoutUser() {
+  window.localStorage.removeItem('token');
+
+  return {
+    type: LOGOUT
+  };
+}
+
+/**
  * Get a single user based on their ID and store it in state
  * Used to re-authenticate
  * @param userId
@@ -124,9 +138,8 @@ export function getUser(userId: string) {
   return (dispatch) => {
     dispatch(userRequest());
 
-    return Ajax.get(`/api/users/${userId}`)
+    return Ajax.get(`users/${userId}`)
       .then((res) => {
-        console.log(res);
         if (res.ok) {
           return res.json()
             .then((res) => dispatch(userSuccess(res)));

@@ -14,6 +14,8 @@ interface IState {
 class Login extends React.Component<IProps, IState> {
   public constructor(props) {
     super(props);
+
+    // Bind event handlers
     this.handleEmailChange = this.handleEmailChange.bind(this);
     this.handlePasswordChange = this.handlePasswordChange.bind(this);
     this.handleLoginClick = this.handleLoginClick.bind(this);

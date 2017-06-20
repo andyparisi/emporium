@@ -17,7 +17,9 @@ const style = require('./style.css');
 class App extends React.Component<any, any> {
   public componentWillMount(): void {
     const userId: string = window.localStorage.getItem('userId');
-    if (userId && !this.props.user.isLoaded) {
+    const token: string = window.localStorage.getItem('token');
+
+    if (userId && !this.props.user.isLoggedIn && token) {
       this.props.getUser(userId);
     }
   }

@@ -1,11 +1,6 @@
-interface IAjax {
-  headers?: any;
-  body?: any;
-  method?: any;
-}
-
 class Ajax {
-  private config: IAjax = {
+  private prefix: string = '/api/';
+  private config: RequestInit = {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -13,29 +8,29 @@ class Ajax {
     }
   };
 
-  public get(url: string, config?: IAjax): Promise<Response> {
+  public get(url: string, config?: RequestInit): Promise<Response> {
     this.config.method = 'GET';
     return this.fetch(url, config);
   }
 
-  public post(url: string, config?: IAjax): Promise<Response> {
+  public post(url: string, config?: RequestInit): Promise<Response> {
     this.config.method = 'POST';
     return this.fetch(url, config);
   }
 
-  public delete(url: string, config?: IAjax): Promise<Response> {
+  public delete(url: string, config?: RequestInit): Promise<Response> {
     this.config.method = 'DELETE';
     return this.fetch(url, config);
   }
 
-  public put(url: string, config?: IAjax): Promise<Response> {
+  public put(url: string, config?: RequestInit): Promise<Response> {
     this.config.method = 'PUT';
     return this.fetch(url, config);
   }
 
-  protected fetch(url: string, config?: IAjax): Promise<Response> {
+  public fetch(url: string, config?: RequestInit): Promise<Response> {
     this.config = Object.assign(this.config, config);
-    return fetch(url, this.config);
+    return fetch(`${this.prefix}${url}`, this.config);
   }
 }
 
