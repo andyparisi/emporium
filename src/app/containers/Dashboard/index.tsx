@@ -21,7 +21,7 @@ class Dashboard extends React.Component<IProps, any> {
   public render() {
     return (
       <div className={style.Dashboard}>
-        <h1>{`Welcome to Emporium!, ${this.props.user.user.email}`}</h1>
+        <h1>{`Welcome to Emporium!, ${this.props.user.user.firstName}`}</h1>
       </div>
     );
   }

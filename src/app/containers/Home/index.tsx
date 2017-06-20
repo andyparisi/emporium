@@ -12,12 +12,13 @@ interface IProps {
   user: IUser;
   getUser: Redux.ActionCreator<IUserAction>;
   login: Redux.ActionCreator<IUserAction>;
+  isLoaded: Redux.ActionCreator<IUserAction>;
 }
 
 @connect(
   (state) => ({
     user: state.user,
-    token: state.token
+    isLoaded: state.isLoaded
   }),
   (dispatch) => ({
     login: (email, password, cb) => dispatch(loginUser(email, password, cb))
@@ -30,10 +31,17 @@ class Home extends React.Component<IProps, any> {
   }
 
   public render() {
+    const { isLoaded, user } = this.props.user;
+    let login: JSX.Element = <Login onClick={this.handleLogin} />;
+
+    if (isLoaded) {
+      login = <span>{`Signed in as ${user.firstName} ${user.lastName} (${user.email})`}</span>;
+    }
+
     return (
       <div className={style.Home}>
-        <h1>{this.props.user.user.email}</h1>
-        <Login onClick={this.handleLogin} />
+        <h1>Login to Emporium</h1>
+        {login}
       </div>
     );
   }

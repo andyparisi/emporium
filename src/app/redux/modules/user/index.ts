@@ -1,4 +1,5 @@
 import { IUser, IUserAction } from 'interfaces/user';
+import Ajax from 'helpers/AjaxHelper';
 
 export const GET_USER_REQUEST: string = 'user/GET_USER_REQUEST';
 export const GET_USER_SUCCESS: string = 'user/GET_USER_SUCCESS';
@@ -9,6 +10,7 @@ export const LOGIN_FAILURE: string = 'user/LOGIN_FAILURE';
 
 const initialState: IUser = {
   isFetching: false,
+  isLoaded: false,
   user: {}
 };
 
@@ -22,6 +24,7 @@ export function userReducer(state = initialState, action: IUserAction) {
     case GET_USER_SUCCESS:
       return Object.assign({}, state, {
         isFetching: false,
+        isLoaded: true,
         user: action.payload.user
       });
 
@@ -35,6 +38,7 @@ export function userReducer(state = initialState, action: IUserAction) {
     case LOGIN_SUCCESS:
       return Object.assign({}, state, {
         isFetching: false,
+        isLoaded: true,
         user: action.payload.user
       });
 
@@ -90,6 +94,9 @@ export function loginSuccess(res: any) {
   const { user, token } = res;
   // Set the token to localstorage. No real need to pass it to state.
   window.localStorage.setItem('token', token);
+  // Store the userId and email in storage
+  window.localStorage.setItem('userEmail', user.email);
+  window.localStorage.setItem('userId', user._id);
 
   return {
     type: LOGIN_SUCCESS,
@@ -109,15 +116,17 @@ export function loginFailure(message: any) {
 }
 
 /**
- * Get a single user based on their ID
+ * Get a single user based on their ID and store it in state
+ * Used to re-authenticate
  * @param userId
  */
 export function getUser(userId: string) {
   return (dispatch) => {
     dispatch(userRequest());
 
-    return fetch(`/api/users/${userId}`)
+    return Ajax.get(`/api/users/${userId}`)
       .then((res) => {
+        console.log(res);
         if (res.ok) {
           return res.json()
             .then((res) => dispatch(userSuccess(res)));
@@ -140,7 +149,7 @@ export function userSuccess(user: any): IUserAction {
   return {
     type: GET_USER_SUCCESS,
     payload: {
-      user: user
+      user: user,
     }
   };
 }

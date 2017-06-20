@@ -20,7 +20,7 @@ class Login extends React.Component<IProps, IState> {
   }
 
   public state = {
-    email: '',
+    email: window.localStorage.getItem('userEmail') || '',
     password: ''
   };
 

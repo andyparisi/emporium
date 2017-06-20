@@ -1,6 +1,6 @@
 export interface IUser {
   isFetching?: boolean;
-  count?: number;
+  isLoaded?: boolean;
   error?: boolean;
   message?: any;
   user?: any;
@@ -10,7 +10,6 @@ export interface IUserAction {
   type: string;
   payload?: {
     user?: any;
-    token?: string;
     message?: any;
   };
 }
