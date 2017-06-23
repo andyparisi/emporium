@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import User from '../models/User';
 import EmpService from './EmpService';
-import { AUTH_SECRET } from 'secrets';
+import { AUTH_SECRET } from '../secrets';
 const jwt = require('jsonwebtoken');
 const passport = require('passport');
 
