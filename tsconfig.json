@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "baseUrl": ".",
+    "types": ["node", "mocha"],
     "paths": {
       "*": [
         "src/app/*",
